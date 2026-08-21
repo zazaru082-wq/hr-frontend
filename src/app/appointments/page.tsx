@@ -37,7 +37,7 @@ export default function AppointmentsPage() {
 
   const fetchSchedules = async () => {
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000"}/api/schedules/`);
+      const res = await fetch('http://127.0.0.1:8000/api/schedules/');
       if (res.ok) {
         const data = await res.json();
         setSchedules(data);
@@ -84,9 +84,9 @@ export default function AppointmentsPage() {
   };
 
   const handleDelete = async (id: number) => {
-    if (!confirm('เธเธธเธ“เนเธเนเนเธเธซเธฃเธทเธญเนเธกเนเธงเนเธฒเธ•เนเธญเธเธเธฒเธฃเธฅเธเธเธดเธงเธเธฒเธเธเธตเน?')) return;
+    if (!confirm('คุณแน่ใจหรือไม่ว่าต้องการลบคิวงานนี้?')) return;
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000"}/api/schedules/${id}`, {
+      const res = await fetch(`http://127.0.0.1:8000/api/schedules/${id}`, {
         method: 'DELETE',
       });
       if (res.ok) {
@@ -101,8 +101,8 @@ export default function AppointmentsPage() {
     e.preventDefault();
     try {
       const url = editMode && editId 
-        ? `${process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000"}/api/schedules/${editId}` 
-        : `${process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000"}/api/schedules/`;
+        ? `http://127.0.0.1:8000/api/schedules/${editId}` 
+        : 'http://127.0.0.1:8000/api/schedules/';
         
       const method = editMode ? 'PUT' : 'POST';
 
@@ -174,21 +174,21 @@ export default function AppointmentsPage() {
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6 mb-8 relative z-10">
         <div>
           <h1 className="text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-700 to-indigo-600 tracking-tight flex items-center gap-3">
-            03 เธเธดเธงเธซเธฑเธงเธซเธเนเธฒ
+            03 คิวหัวหน้า
           </h1>
-          <p className="text-slate-500 mt-2 text-lg font-medium">เธเธฑเธ”เธเธฒเธฃเธ•เธฒเธฃเธฒเธเธเธฑเธ”เธซเธกเธฒเธขเนเธฅเธฐเธเธเธดเธ—เธดเธเธเธฒเธ</p>
+          <p className="text-slate-500 mt-2 text-lg font-medium">จัดการตารางนัดหมายและปฏิทินงาน</p>
         </div>
         <button
           onClick={openAddModal}
           className="group flex items-center gap-2 bg-gradient-to-r from-blue-500 to-indigo-500 hover:from-blue-600 hover:to-indigo-600 text-white px-6 py-3 rounded-full shadow-lg shadow-blue-500/30 transition-all hover:shadow-xl hover:scale-105 active:scale-95"
         >
-          <span className="text-xl group-hover:rotate-90 transition-transform">โ•</span>
-          <span className="font-bold">เน€เธเธดเนเธกเธเธดเธงเธเธฒเธ</span>
+          <span className="text-xl group-hover:rotate-90 transition-transform">➕</span>
+          <span className="font-bold">เพิ่มคิวงาน</span>
         </button>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 flex-1">
-        {/* เธเธเธดเธ—เธดเธ */}
+        {/* ปฏิทิน */}
         <div className="lg:col-span-7 bg-white/70 backdrop-blur-xl border border-white/50 rounded-[2.5rem] shadow-xl shadow-indigo-100/50 p-8 flex flex-col">
           <div className="flex justify-between items-center mb-8">
             <h2 className="text-2xl font-black text-slate-800">
@@ -196,24 +196,24 @@ export default function AppointmentsPage() {
             </h2>
             <div className="flex gap-2">
               <button onClick={prevMonth} className="p-3 rounded-full hover:bg-slate-100 text-slate-600 transition-colors">
-                <span className="text-xl font-bold leading-none">โ—€</span>
+                <span className="text-xl font-bold leading-none">◀</span>
               </button>
               <button onClick={() => {
                 const today = new Date();
                 setCurrentMonth(new Date(today.getFullYear(), today.getMonth(), 1));
                 setSelectedDate(today);
               }} className="px-4 py-2 rounded-full hover:bg-slate-100 text-slate-600 font-bold transition-colors">
-                เธงเธฑเธเธเธตเน
+                วันนี้
               </button>
               <button onClick={nextMonth} className="p-3 rounded-full hover:bg-slate-100 text-slate-600 transition-colors">
-                <span className="text-xl font-bold leading-none">โ–ถ</span>
+                <span className="text-xl font-bold leading-none">▶</span>
               </button>
             </div>
           </div>
 
           <div className="grid grid-cols-7 gap-2 mb-4">
-            {['เธญเธฒ', 'เธ', 'เธญ', 'เธ', 'เธเธค', 'เธจ', 'เธช'].map(day => (
-              <div key={day} className={`text-center font-bold text-sm py-2 ${day === 'เธญเธฒ' ? 'text-rose-500' : 'text-slate-400'}`}>
+            {['อา', 'จ', 'อ', 'พ', 'พฤ', 'ศ', 'ส'].map(day => (
+              <div key={day} className={`text-center font-bold text-sm py-2 ${day === 'อา' ? 'text-rose-500' : 'text-slate-400'}`}>
                 {day}
               </div>
             ))}
@@ -250,7 +250,7 @@ export default function AppointmentsPage() {
                     {date.getDate()}
                   </span>
                   
-                  {/* เนเธชเธ”เธเธเธธเธ”เน€เธกเธทเนเธญเธเธฒเธ */}
+                  {/* แสดงจุดเมื่องาน */}
                   {hasSchedules && (
                     <div className="flex flex-wrap justify-center gap-1 mt-2 px-1">
                       {daySchedules.slice(0, 3).map((_, i) => (
@@ -267,10 +267,10 @@ export default function AppointmentsPage() {
           </div>
         </div>
 
-        {/* เธฃเธฒเธขเธฅเธฐเน€เธญเธตเธขเธ”เธเธฒเธ */}
+        {/* รายละเอียดงาน */}
         <div className="lg:col-span-5 flex flex-col h-full">
           <div className="bg-gradient-to-br from-slate-800 to-indigo-900 rounded-t-[2.5rem] p-8 text-white">
-            <h3 className="text-xl text-indigo-200 font-medium mb-1">เธฃเธฒเธขเธฅเธฐเน€เธญเธตเธขเธ”เธเธฒเธเธเธฃเธฐเธเธณเธงเธฑเธเธ—เธตเน</h3>
+            <h3 className="text-xl text-indigo-200 font-medium mb-1">รายละเอียดงานประจำวันที่</h3>
             <h2 className="text-3xl font-black">{formatThaiDate(selectedDateStr)}</h2>
           </div>
           
@@ -281,14 +281,14 @@ export default function AppointmentsPage() {
               </div>
             ) : selectedSchedules.length === 0 ? (
               <div className="text-center py-16">
-                <div className="text-6xl mb-4">๐“…</div>
-                <h3 className="text-xl font-bold text-slate-700 mb-2">เนเธกเนเธกเธตเธเธดเธงเธเธฑเธ”เธซเธกเธฒเธข</h3>
-                <p className="text-slate-500">เธงเธฑเธเธเธตเนเธซเธฑเธงเธซเธเนเธฒเธขเธฑเธเนเธกเนเธกเธตเธเธณเธซเธเธ”เธเธฒเธฃเนเธ”เน</p>
+                <div className="text-6xl mb-4">📅</div>
+                <h3 className="text-xl font-bold text-slate-700 mb-2">ไม่มีคิวนัดหมาย</h3>
+                <p className="text-slate-500">วันนี้หัวหน้ายังไม่มีกำหนดการใดๆ</p>
                 <button 
                   onClick={openAddModal}
                   className="mt-6 px-6 py-2 bg-indigo-50 text-indigo-600 font-bold rounded-full hover:bg-indigo-100 transition-colors"
                 >
-                  + เน€เธเธดเนเธกเธเธฑเธ”เธซเธกเธฒเธขเธงเธฑเธเธเธตเน
+                  + เพิ่มนัดหมายวันนี้
                 </button>
               </div>
             ) : (
@@ -300,11 +300,11 @@ export default function AppointmentsPage() {
                         {schedule.time_str}
                       </div>
                       <div className="flex gap-2">
-                        <button onClick={() => openEditModal(schedule)} className="p-2 text-slate-400 hover:text-blue-500 hover:bg-blue-50 rounded-lg transition-colors" title="เนเธเนเนเธ">
-                          โ๏ธ
+                        <button onClick={() => openEditModal(schedule)} className="p-2 text-slate-400 hover:text-blue-500 hover:bg-blue-50 rounded-lg transition-colors" title="แก้ไข">
+                          ✏️
                         </button>
-                        <button onClick={() => handleDelete(schedule.id)} className="p-2 text-slate-400 hover:text-rose-500 hover:bg-rose-50 rounded-lg transition-colors" title="เธฅเธ">
-                          ๐—‘๏ธ
+                        <button onClick={() => handleDelete(schedule.id)} className="p-2 text-slate-400 hover:text-rose-500 hover:bg-rose-50 rounded-lg transition-colors" title="ลบ">
+                          🗑️
                         </button>
                       </div>
                     </div>
@@ -314,25 +314,25 @@ export default function AppointmentsPage() {
                     <div className="space-y-2 text-sm">
                       {schedule.location && (
                         <div className="flex items-start gap-2 text-slate-600">
-                          <span className="shrink-0 mt-0.5 text-rose-500">๐“</span>
-                          <span><span className="font-bold text-slate-700">เธชเธ–เธฒเธเธ—เธตเน:</span> {schedule.location}</span>
+                          <span className="shrink-0 mt-0.5 text-rose-500">📍</span>
+                          <span><span className="font-bold text-slate-700">สถานที่:</span> {schedule.location}</span>
                         </div>
                       )}
                       {schedule.meal && (
                         <div className="flex items-start gap-2 text-slate-600">
-                          <span className="shrink-0 mt-0.5 text-amber-500">โ•</span>
-                          <span><span className="font-bold text-slate-700">เธกเธทเนเธญเธเธฑเธ:</span> {schedule.meal}</span>
+                          <span className="shrink-0 mt-0.5 text-amber-500">☕</span>
+                          <span><span className="font-bold text-slate-700">มื้อฉัน:</span> {schedule.meal}</span>
                         </div>
                       )}
                       {schedule.driver && (
                         <div className="flex items-start gap-2 text-slate-600">
-                          <span className="shrink-0 mt-0.5 text-blue-500">๐‘ค</span>
-                          <span><span className="font-bold text-slate-700">เธเธเธเธฑเธ:</span> {schedule.driver}</span>
+                          <span className="shrink-0 mt-0.5 text-blue-500">👤</span>
+                          <span><span className="font-bold text-slate-700">คนขับ:</span> {schedule.driver}</span>
                         </div>
                       )}
                       {schedule.note && (
                         <div className="flex items-start gap-2 text-slate-600 bg-slate-50 p-2 rounded-lg mt-2">
-                          <span className="shrink-0 text-slate-400">๐“</span>
+                          <span className="shrink-0 text-slate-400">📝</span>
                           <span className="text-slate-600">{schedule.note}</span>
                         </div>
                       )}
@@ -345,7 +345,7 @@ export default function AppointmentsPage() {
         </div>
       </div>
 
-      {/* เน€เธเธดเนเธก/เนเธเนเนเธ Modal (Form) */}
+      {/* เพิ่ม/แก้ไข Modal (Form) */}
       {isModalOpen && (
         <div className="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 flex justify-center items-center p-4">
           <div className="bg-white rounded-[2.5rem] w-full max-w-2xl max-h-[90vh] overflow-hidden flex flex-col shadow-2xl animate-in zoom-in-95 duration-200">
@@ -354,10 +354,10 @@ export default function AppointmentsPage() {
                 onClick={() => setIsModalOpen(false)}
                 className="absolute top-8 right-8 w-10 h-10 rounded-full bg-white/20 hover:bg-white/30 flex items-center justify-center transition-colors"
               >
-                <span className="text-xl font-bold leading-none">โ•</span>
+                <span className="text-xl font-bold leading-none">✕</span>
               </button>
-              <h2 className="text-2xl font-bold mb-2">{editMode ? 'เนเธเนเนเธเธเธดเธงเธเธฑเธ”เธซเธกเธฒเธข' : 'เน€เธเธดเนเธกเธเธดเธงเธเธฑเธ”เธซเธกเธฒเธขเนเธซเธกเน'}</h2>
-              <p className="text-white/80">เธเธฑเธเธ—เธถเธเธเนเธญเธกเธนเธฅเธ•เธฒเธฃเธฒเธเธเธฒเธ เธชเธ–เธฒเธเธ—เธตเน เธกเธทเนเธญเธเธฑเธ เนเธฅเธฐเธเธเธเธฑเธเธฃเธ–</p>
+              <h2 className="text-2xl font-bold mb-2">{editMode ? 'แก้ไขคิวนัดหมาย' : 'เพิ่มคิวนัดหมายใหม่'}</h2>
+              <p className="text-white/80">บันทึกข้อมูลตารางงาน สถานที่ มื้อฉัน และคนขับรถ</p>
             </div>
             
             <form onSubmit={handleSubmit} className="p-8 overflow-y-auto flex-1 bg-slate-50/50">
@@ -365,7 +365,7 @@ export default function AppointmentsPage() {
                 
                 <div className="grid grid-cols-2 gap-6">
                   <div>
-                    <label className="block text-sm font-bold text-slate-700 mb-2">เธงเธฑเธเธ—เธตเน <span className="text-rose-500">*</span></label>
+                    <label className="block text-sm font-bold text-slate-700 mb-2">วันที่ <span className="text-rose-500">*</span></label>
                     <input 
                       type="date" 
                       required
@@ -375,7 +375,7 @@ export default function AppointmentsPage() {
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-bold text-slate-700 mb-2">เน€เธงเธฅเธฒ <span className="text-rose-500">*</span></label>
+                    <label className="block text-sm font-bold text-slate-700 mb-2">เวลา <span className="text-rose-500">*</span></label>
                     <input 
                       type="time" 
                       required
@@ -387,11 +387,11 @@ export default function AppointmentsPage() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-bold text-slate-700 mb-2">เธซเธฑเธงเธเนเธญเธเธฒเธ / เธเธดเธเธเธฃเธฃเธก <span className="text-rose-500">*</span></label>
+                  <label className="block text-sm font-bold text-slate-700 mb-2">หัวข้องาน / กิจกรรม <span className="text-rose-500">*</span></label>
                   <input 
                     type="text" 
                     required
-                    placeholder="เน€เธเนเธ เธเธฃเธฐเธเธธเธกเธเธ“เธฐเธเธฃเธฃเธกเธเธฒเธฃ..."
+                    placeholder="เช่น ประชุมคณะกรรมการ..."
                     value={formData.topic}
                     onChange={(e) => setFormData({...formData, topic: e.target.value})}
                     className="w-full px-4 py-3 bg-white border border-slate-200 rounded-2xl focus:ring-2 focus:ring-blue-500 focus:border-transparent font-medium"
@@ -399,10 +399,10 @@ export default function AppointmentsPage() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-bold text-slate-700 mb-2">เธชเธ–เธฒเธเธ—เธตเน</label>
+                  <label className="block text-sm font-bold text-slate-700 mb-2">สถานที่</label>
                   <input 
                     type="text" 
-                    placeholder="เธฃเธฐเธเธธเธชเธ–เธฒเธเธ—เธตเน..."
+                    placeholder="ระบุสถานที่..."
                     value={formData.location}
                     onChange={(e) => setFormData({...formData, location: e.target.value})}
                     className="w-full px-4 py-3 bg-white border border-slate-200 rounded-2xl focus:ring-2 focus:ring-blue-500 focus:border-transparent font-medium"
@@ -411,20 +411,20 @@ export default function AppointmentsPage() {
 
                 <div className="grid grid-cols-2 gap-6">
                   <div>
-                    <label className="block text-sm font-bold text-slate-700 mb-2">เธกเธทเนเธญเธเธฑเธ (เธ–เนเธฒเธกเธต)</label>
+                    <label className="block text-sm font-bold text-slate-700 mb-2">มื้อฉัน (ถ้ามี)</label>
                     <input 
                       type="text" 
-                      placeholder="เน€เธเนเธ เน€เธเนเธฒ/เน€เธเธฅ/เธเนเธณเธเธฒเธเธฐ"
+                      placeholder="เช่น เช้า/เพล/น้ำปานะ"
                       value={formData.meal}
                       onChange={(e) => setFormData({...formData, meal: e.target.value})}
                       className="w-full px-4 py-3 bg-white border border-slate-200 rounded-2xl focus:ring-2 focus:ring-blue-500 focus:border-transparent font-medium"
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-bold text-slate-700 mb-2">เธเธเธเธฑเธเธฃเธ– (เธ–เนเธฒเธกเธต)</label>
+                    <label className="block text-sm font-bold text-slate-700 mb-2">คนขับรถ (ถ้ามี)</label>
                     <input 
                       type="text" 
-                      placeholder="เธฃเธฐเธเธธเธเธทเนเธญเธเธเธเธฑเธ..."
+                      placeholder="ระบุชื่อคนขับ..."
                       value={formData.driver}
                       onChange={(e) => setFormData({...formData, driver: e.target.value})}
                       className="w-full px-4 py-3 bg-white border border-slate-200 rounded-2xl focus:ring-2 focus:ring-blue-500 focus:border-transparent font-medium"
@@ -433,10 +433,10 @@ export default function AppointmentsPage() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-bold text-slate-700 mb-2">เธซเธกเธฒเธขเน€เธซเธ•เธธเน€เธเธดเนเธกเน€เธ•เธดเธก</label>
+                  <label className="block text-sm font-bold text-slate-700 mb-2">หมายเหตุเพิ่มเติม</label>
                   <textarea 
                     rows={3}
-                    placeholder="เธฃเธฒเธขเธฅเธฐเน€เธญเธตเธขเธ”เธญเธทเนเธเน..."
+                    placeholder="รายละเอียดอื่นๆ..."
                     value={formData.note}
                     onChange={(e) => setFormData({...formData, note: e.target.value})}
                     className="w-full px-4 py-3 bg-white border border-slate-200 rounded-2xl focus:ring-2 focus:ring-blue-500 focus:border-transparent font-medium resize-none"
@@ -453,7 +453,7 @@ export default function AppointmentsPage() {
                       : 'bg-blue-600 hover:bg-blue-700 shadow-blue-500/30'
                   }`}
                 >
-                  {editMode ? 'เธเธฑเธเธ—เธถเธเธเธฒเธฃเนเธเนเนเธ' : 'เธเธฑเธเธ—เธถเธเธเธดเธงเธเธฑเธ”เธซเธกเธฒเธข'}
+                  {editMode ? 'บันทึกการแก้ไข' : 'บันทึกคิวนัดหมาย'}
                 </button>
               </div>
             </form>

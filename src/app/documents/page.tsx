@@ -1,6 +1,19 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import { 
+  FileText, 
+  Upload, 
+  Search, 
+  X, 
+  Download, 
+  Eye, 
+  File, 
+  FolderOpen, 
+  BookOpen, 
+  FileBadge,
+  Plus
+} from "lucide-react";
 
 interface Document {
   id: number;
@@ -18,7 +31,7 @@ export default function DocumentsPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [formData, setFormData] = useState({
     title: "",
-    category: "เนเธเธเธเธญเธฃเนเธก",
+    category: "แบบฟอร์ม",
     file_url: "",
     uploaded_by: "",
     note: ""
@@ -50,7 +63,7 @@ export default function DocumentsPage() {
     e.preventDefault();
     setIsLoading(true);
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000"}/api/documents/`, {
+      const response = await fetch("http://127.0.0.1:8000/api/documents/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -62,7 +75,7 @@ export default function DocumentsPage() {
         setIsModalOpen(false);
         setFormData({
           title: "",
-          category: "เนเธเธเธเธญเธฃเนเธก",
+          category: "แบบฟอร์ม",
           file_url: "",
           uploaded_by: "",
           note: ""
@@ -83,18 +96,18 @@ export default function DocumentsPage() {
 
   const getCategoryIcon = (category: string) => {
     switch (category) {
-      case "เนเธเธเธเธญเธฃเนเธก": return <span className="text-3xl">๐“</span>;
-      case "เธฃเธฐเน€เธเธตเธขเธ": return <span className="text-3xl">๐“–</span>;
-      case "เธเธณเธชเธฑเนเธ": return <span className="text-3xl">๐“ข</span>;
-      default: return <span className="text-3xl">๐“</span>;
+      case "แบบฟอร์ม": return <FileText className="w-8 h-8 text-blue-500" />;
+      case "ระเบียบ": return <BookOpen className="w-8 h-8 text-emerald-500" />;
+      case "คำสั่ง": return <FileBadge className="w-8 h-8 text-amber-500" />;
+      default: return <File className="w-8 h-8 text-indigo-500" />;
     }
   };
 
   const getCategoryColor = (category: string) => {
     switch (category) {
-      case "เนเธเธเธเธญเธฃเนเธก": return "bg-blue-100 text-blue-700";
-      case "เธฃเธฐเน€เธเธตเธขเธ": return "bg-emerald-100 text-emerald-700";
-      case "เธเธณเธชเธฑเนเธ": return "bg-amber-100 text-amber-700";
+      case "แบบฟอร์ม": return "bg-blue-100 text-blue-700";
+      case "ระเบียบ": return "bg-emerald-100 text-emerald-700";
+      case "คำสั่ง": return "bg-amber-100 text-amber-700";
       default: return "bg-indigo-100 text-indigo-700";
     }
   };
@@ -106,7 +119,7 @@ export default function DocumentsPage() {
       <div className="absolute bottom-[-10%] right-[-5%] w-[50%] h-[50%] rounded-full bg-gradient-to-tl from-blue-200/40 to-cyan-200/40 blur-3xl -z-10 animate-pulse" style={{ animationDelay: '2s' }}></div>
       <div className="absolute top-[20%] right-[15%] w-16 h-16 rounded-full border-[6px] border-indigo-100/50 -z-10"></div>
       <div className="absolute bottom-[20%] left-[10%] text-purple-200/50 -z-10 rotate-45">
-        <span className="text-4xl opacity-50">โ</span>
+        <Plus className="w-12 h-12" />
       </div>
 
       <div className="max-w-7xl mx-auto space-y-8">
@@ -116,21 +129,21 @@ export default function DocumentsPage() {
           
           <div className="flex items-center gap-6 relative z-10">
             <div className="w-20 h-20 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-[1.5rem] flex items-center justify-center shadow-lg shadow-indigo-500/30 rotate-3 transition-transform hover:rotate-6">
-              <span className="text-4xl">๐“</span>
+              <FolderOpen className="w-10 h-10 text-white" />
             </div>
             <div>
               <h1 className="text-4xl md:text-5xl font-extrabold bg-gradient-to-r from-slate-800 to-indigo-900 bg-clip-text text-transparent mb-2">
-                06 เน€เธญเธเธชเธฒเธฃเธชเธณเธเธฑเธ
+                06 เอกสารสำคัญ
               </h1>
-              <p className="text-slate-500 text-lg font-medium">เธเธฑเธ”เน€เธเนเธเนเธฅเธฐเธเนเธเธซเธฒเน€เธญเธเธชเธฒเธฃเธชเธณเธเธฑเธเธ—เธฑเนเธเธซเธกเธ”</p>
+              <p className="text-slate-500 text-lg font-medium">จัดเก็บและค้นหาเอกสารสำคัญทั้งหมด</p>
             </div>
           </div>
           <button
             onClick={() => setIsModalOpen(true)}
             className="group relative inline-flex items-center justify-center gap-3 px-8 py-4 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-full font-semibold text-lg shadow-lg shadow-indigo-500/30 hover:shadow-indigo-500/50 transition-all hover:-translate-y-1 z-10"
           >
-            <span className="text-xl">๐“ค</span>
-            <span>เธญเธฑเธเนเธซเธฅเธ”เน€เธญเธเธชเธฒเธฃ</span>
+            <Upload className="w-6 h-6 transition-transform group-hover:scale-110" />
+            <span>อัปโหลดเอกสาร</span>
             <div className="absolute inset-0 bg-white/20 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></div>
           </button>
         </div>
@@ -139,11 +152,11 @@ export default function DocumentsPage() {
         <div className="flex justify-center z-10 relative">
           <div className="w-full max-w-2xl relative group">
             <div className="absolute inset-y-0 left-6 flex items-center pointer-events-none">
-              <span className="text-lg">๐”</span>
+              <Search className="h-6 w-6 text-slate-400 group-focus-within:text-indigo-500 transition-colors" />
             </div>
             <input
               type="text"
-              placeholder="เธเนเธเธซเธฒเน€เธญเธเธชเธฒเธฃ (เธเธทเนเธญ, เธซเธกเธงเธ”เธซเธกเธนเน)..."
+              placeholder="ค้นหาเอกสาร (ชื่อ, หมวดหมู่)..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="w-full pl-16 pr-6 py-4 rounded-full border-2 border-white bg-white/60 backdrop-blur-md shadow-lg text-slate-700 text-lg focus:outline-none focus:border-indigo-400 focus:bg-white focus:ring-4 focus:ring-indigo-100 transition-all placeholder:text-slate-400"
@@ -175,13 +188,13 @@ export default function DocumentsPage() {
                 <div className="space-y-2 text-sm text-slate-500 font-medium">
                   <div className="flex items-center gap-2">
                     <div className="w-6 h-6 rounded-full bg-slate-100 flex items-center justify-center">
-                      <span className="text-xs">๐‘ค</span>
+                      <span className="text-xs">👤</span>
                     </div>
-                    <span className="truncate">{doc.uploaded_by || 'เนเธกเนเธฃเธฐเธเธธเธเธทเนเธญ'}</span>
+                    <span className="truncate">{doc.uploaded_by || 'ไม่ระบุชื่อ'}</span>
                   </div>
                   {doc.note && (
                     <div className="flex items-start gap-2">
-                      <span className="text-xs shrink-0 mt-0.5">๐“</span>
+                      <FileText className="w-4 h-4 shrink-0 mt-0.5 text-slate-400" />
                       <p className="line-clamp-2 text-slate-400">{doc.note}</p>
                     </div>
                   )}
@@ -195,7 +208,7 @@ export default function DocumentsPage() {
                   rel="noreferrer"
                   className="flex-1 flex items-center justify-center gap-2 py-2.5 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 rounded-xl font-semibold transition-colors"
                 >
-                  <span>๐‘๏ธ</span> เธ”เธนเนเธเธฅเน
+                  <Eye className="w-4 h-4" /> ดูไฟล์
                 </a>
                 <a 
                   href={doc.file_url} 
@@ -204,15 +217,15 @@ export default function DocumentsPage() {
                   rel="noreferrer"
                   className="p-2.5 bg-slate-50 hover:bg-slate-100 text-slate-600 rounded-xl transition-colors flex items-center justify-center"
                 >
-                  <span className="text-lg">โฌ๏ธ</span>
+                  <Download className="w-5 h-5" />
                 </a>
               </div>
             </div>
           ))}
           {filteredDocuments.length === 0 && (
             <div className="col-span-full py-16 text-center bg-white/60 backdrop-blur-sm rounded-[2.5rem] border-2 border-dashed border-slate-200">
-              <span className="text-6xl block mx-auto mb-4 text-slate-300">๐“</span>
-              <p className="text-xl text-slate-500 font-medium">เนเธกเนเธเธเน€เธญเธเธชเธฒเธฃเธ—เธตเนเธเนเธเธซเธฒ</p>
+              <FolderOpen className="w-20 h-20 text-slate-300 mx-auto mb-4" />
+              <p className="text-xl text-slate-500 font-medium">ไม่พบเอกสารที่ค้นหา</p>
             </div>
           )}
         </div>
@@ -227,18 +240,18 @@ export default function DocumentsPage() {
                 onClick={() => setIsModalOpen(false)}
                 className="absolute top-6 right-6 w-8 h-8 bg-white/20 hover:bg-white/30 rounded-full flex items-center justify-center backdrop-blur-sm transition-colors"
               >
-                <span className="text-lg font-bold">โ•</span>
+                <X className="w-5 h-5" />
               </button>
               <h2 className="text-2xl font-bold mb-2 flex items-center gap-3">
-                <span className="text-2xl">๐“ค</span>
-                เธญเธฑเธเนเธซเธฅเธ”เน€เธญเธเธชเธฒเธฃเนเธซเธกเน
+                <Upload className="w-7 h-7" />
+                อัปโหลดเอกสารใหม่
               </h2>
-              <p className="text-indigo-100 font-medium">เธเธฃเธญเธเธเนเธญเธกเธนเธฅเธฃเธฒเธขเธฅเธฐเน€เธญเธตเธขเธ”เน€เธญเธเธชเธฒเธฃเธ—เธตเนเธ•เนเธญเธเธเธฒเธฃเธเธฑเธ”เน€เธเนเธ</p>
+              <p className="text-indigo-100 font-medium">กรอกข้อมูลรายละเอียดเอกสารที่ต้องการจัดเก็บ</p>
             </div>
             
             <form onSubmit={handleSubmit} className="p-8 space-y-6">
               <div className="space-y-2">
-                <label className="block text-slate-700 font-semibold ml-1">เธเธทเนเธญเน€เธญเธเธชเธฒเธฃ</label>
+                <label className="block text-slate-700 font-semibold ml-1">ชื่อเอกสาร</label>
                 <input
                   type="text"
                   name="title"
@@ -246,41 +259,41 @@ export default function DocumentsPage() {
                   value={formData.title}
                   onChange={handleInputChange}
                   className="w-full px-5 py-3 rounded-2xl border-2 border-slate-100 bg-slate-50 focus:bg-white focus:border-indigo-400 focus:ring-4 focus:ring-indigo-100 outline-none transition-all"
-                  placeholder="เน€เธเนเธ เธฃเธฐเน€เธเธตเธขเธเธเธฒเธฃเธฅเธฒ เธ.เธจ. 2567"
+                  placeholder="เช่น ระเบียบการลา พ.ศ. 2567"
                 />
               </div>
 
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <label className="block text-slate-700 font-semibold ml-1">เธซเธกเธงเธ”เธซเธกเธนเน</label>
+                  <label className="block text-slate-700 font-semibold ml-1">หมวดหมู่</label>
                   <select
                     name="category"
                     value={formData.category}
                     onChange={handleInputChange}
                     className="w-full px-5 py-3 rounded-2xl border-2 border-slate-100 bg-slate-50 focus:bg-white focus:border-indigo-400 focus:ring-4 focus:ring-indigo-100 outline-none transition-all appearance-none cursor-pointer"
                   >
-                    <option value="เนเธเธเธเธญเธฃเนเธก">๐“ เนเธเธเธเธญเธฃเนเธก</option>
-                    <option value="เธฃเธฐเน€เธเธตเธขเธ">โ–๏ธ เธฃเธฐเน€เธเธตเธขเธ</option>
-                    <option value="เธเธณเธชเธฑเนเธ">๐“ข เธเธณเธชเธฑเนเธ</option>
-                    <option value="เธญเธทเนเธเน">๐“ เธญเธทเนเธเน</option>
+                    <option value="แบบฟอร์ม">📝 แบบฟอร์ม</option>
+                    <option value="ระเบียบ">⚖️ ระเบียบ</option>
+                    <option value="คำสั่ง">📢 คำสั่ง</option>
+                    <option value="อื่นๆ">📌 อื่นๆ</option>
                   </select>
                 </div>
                 
                 <div className="space-y-2">
-                  <label className="block text-slate-700 font-semibold ml-1">เธเธนเนเธญเธฑเธเนเธซเธฅเธ”</label>
+                  <label className="block text-slate-700 font-semibold ml-1">ผู้อัปโหลด</label>
                   <input
                     type="text"
                     name="uploaded_by"
                     value={formData.uploaded_by}
                     onChange={handleInputChange}
                     className="w-full px-5 py-3 rounded-2xl border-2 border-slate-100 bg-slate-50 focus:bg-white focus:border-indigo-400 focus:ring-4 focus:ring-indigo-100 outline-none transition-all"
-                    placeholder="เธเธทเนเธญเธเธญเธเธเธธเธ“"
+                    placeholder="ชื่อของคุณ"
                   />
                 </div>
               </div>
 
               <div className="space-y-2">
-                <label className="block text-slate-700 font-semibold ml-1">URL เธเธญเธเนเธเธฅเน</label>
+                <label className="block text-slate-700 font-semibold ml-1">URL ของไฟล์</label>
                 <input
                   type="url"
                   name="file_url"
@@ -293,14 +306,14 @@ export default function DocumentsPage() {
               </div>
 
               <div className="space-y-2">
-                <label className="block text-slate-700 font-semibold ml-1">เธซเธกเธฒเธขเน€เธซเธ•เธธ (เน€เธเธดเนเธกเน€เธ•เธดเธก)</label>
+                <label className="block text-slate-700 font-semibold ml-1">หมายเหตุ (เพิ่มเติม)</label>
                 <textarea
                   name="note"
                   value={formData.note}
                   onChange={handleInputChange}
                   rows={3}
                   className="w-full px-5 py-3 rounded-2xl border-2 border-slate-100 bg-slate-50 focus:bg-white focus:border-indigo-400 focus:ring-4 focus:ring-indigo-100 outline-none transition-all resize-none"
-                  placeholder="เธเธณเธญเธเธดเธเธฒเธขเธชเธฑเนเธเน..."
+                  placeholder="คำอธิบายสั้นๆ..."
                 />
               </div>
 
@@ -310,14 +323,14 @@ export default function DocumentsPage() {
                   onClick={() => setIsModalOpen(false)}
                   className="flex-1 px-6 py-4 rounded-2xl font-semibold text-slate-600 bg-slate-100 hover:bg-slate-200 transition-colors"
                 >
-                  เธขเธเน€เธฅเธดเธ
+                  ยกเลิก
                 </button>
                 <button
                   type="submit"
                   disabled={isLoading}
                   className="flex-1 px-6 py-4 rounded-2xl font-semibold text-white bg-gradient-to-r from-indigo-600 to-purple-600 hover:shadow-lg hover:shadow-indigo-500/30 hover:-translate-y-0.5 transition-all disabled:opacity-70 disabled:hover:translate-y-0"
                 >
-                  {isLoading ? 'เธเธณเธฅเธฑเธเธเธฑเธเธ—เธถเธ...' : 'เธเธฑเธเธ—เธถเธเน€เธญเธเธชเธฒเธฃ'}
+                  {isLoading ? 'กำลังบันทึก...' : 'บันทึกเอกสาร'}
                 </button>
               </div>
             </form>

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { Search, Plus, X, ChevronDown, ChevronUp, FileText, User, Calendar, Tag, AlertCircle } from "lucide-react";
 
 interface Rule {
   id: number;
@@ -58,17 +59,17 @@ export default function RulesPage() {
         setRules([
           {
             id: 1,
-            title: "เน€เธงเธฅเธฒเน€เธเนเธฒเธเธฒเธ",
-            content: "เธเธเธฑเธเธเธฒเธเธ—เธธเธเธเธเธ•เนเธญเธเธชเนเธเธเธเธดเนเธงเน€เธเนเธฒเธ—เธณเธเธฒเธเธเนเธญเธเน€เธงเธฅเธฒ 09:00 เธ. เธซเธฒเธเธกเธฒเธชเธฒเธขเน€เธเธดเธ 3 เธเธฃเธฑเนเธเธเธฐเธกเธตเธเธฒเธฃเธ•เธฑเธเน€เธ•เธทเธญเธ",
-            category: "เธฃเธฐเน€เธเธตเธขเธเธงเธดเธเธฑเธข",
+            title: "เวลาเข้างาน",
+            content: "พนักงานทุกคนต้องสแกนนิ้วเข้าทำงานก่อนเวลา 09:00 น. หากมาสายเกิน 3 ครั้งจะมีการตักเตือน",
+            category: "ระเบียบวินัย",
             created_by: "HR Admin",
             created_at: "2024-01-15T09:00:00Z"
           },
           {
             id: 2,
-            title: "เธเธฒเธฃเนเธ•เนเธเธเธฒเธข",
-            content: "เธญเธเธธเธเธฒเธ•เนเธซเนเนเธ•เนเธเธเธฒเธขเธเธธเธ”เธชเธธเธ เธฒเธ เธซเธฃเธทเธญ Smart Casual เธซเนเธฒเธกเธชเธงเธกเธฃเธญเธเน€เธ—เนเธฒเนเธ•เธฐเนเธฅเธฐเธเธฒเธเน€เธเธเธเธฒเธชเธฑเนเธเนเธเธงเธฑเธเธเธฑเธเธ—เธฃเน-เธเธคเธซเธฑเธชเธเธ”เธต",
-            category: "เธ—เธฑเนเธงเนเธ",
+            title: "การแต่งกาย",
+            content: "อนุญาตให้แต่งกายชุดสุภาพ หรือ Smart Casual ห้ามสวมรองเท้าแตะและกางเกงขาสั้นในวันจันทร์-พฤหัสบดี",
+            category: "ทั่วไป",
             created_by: "HR Admin",
             created_at: "2024-01-16T10:30:00Z"
           }
@@ -86,7 +87,7 @@ export default function RulesPage() {
     setIsSubmitting(true);
     try {
       const newRule = { title, content, category, created_by: createdBy };
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000"}/api/rules/`, {
+      const res = await fetch("http://127.0.0.1:8000/api/rules/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -140,11 +141,11 @@ export default function RulesPage() {
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
             <div>
               <h1 className="text-4xl font-bold bg-gradient-to-r from-purple-700 to-indigo-600 bg-clip-text text-transparent mb-2">
-                07 เธเธ•เธดเธเธฒ MV AI
+                07 กติกา MV AI
               </h1>
               <p className="text-slate-500 text-lg flex items-center gap-2">
-                <span>โน๏ธ</span>
-                เธเธ•เธดเธเธฒเนเธฅเธฐเธเนเธญเธ•เธเธฅเธเนเธเธเธฒเธฃเธ—เธณเธเธฒเธเธฃเนเธงเธกเธเธฑเธ
+                <AlertCircle className="w-5 h-5" />
+                กติกาและข้อตกลงในการทำงานร่วมกัน
               </p>
             </div>
             
@@ -152,18 +153,18 @@ export default function RulesPage() {
               onClick={() => setIsModalOpen(true)}
               className="flex items-center gap-2 bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-6 py-3 rounded-full shadow-lg shadow-purple-500/30 hover:shadow-purple-500/50 hover:-translate-y-0.5 transition-all duration-300 font-medium"
             >
-              <span>โ•</span>
-              เน€เธเธดเนเธกเธเธ•เธดเธเธฒเนเธซเธกเน
+              <Plus className="w-5 h-5" />
+              เพิ่มกติกาใหม่
             </button>
           </div>
 
           <div className="mt-8 relative">
             <div className="absolute inset-y-0 left-0 pl-5 flex items-center pointer-events-none">
-              <span>๐”</span>
+              <Search className="h-5 w-5 text-slate-400" />
             </div>
             <input
               type="text"
-              placeholder="เธเนเธเธซเธฒเธเธ•เธดเธเธฒ (เธเธทเนเธญเน€เธฃเธทเนเธญเธ, เน€เธเธทเนเธญเธซเธฒ)..."
+              placeholder="ค้นหากติกา (ชื่อเรื่อง, เนื้อหา)..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="w-full pl-14 pr-4 py-4 rounded-2xl border-none bg-slate-100 focus:bg-white focus:ring-2 focus:ring-purple-500 shadow-inner transition-all duration-300 outline-none text-slate-700 text-lg"
@@ -180,10 +181,10 @@ export default function RulesPage() {
           ) : filteredRules.length === 0 ? (
             <div className="bg-white/80 backdrop-blur-xl rounded-[2.5rem] shadow-lg p-16 text-center border border-white/50">
               <div className="bg-slate-100 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4">
-                <span className="text-4xl">๐“</span>
+                <FileText className="w-10 h-10 text-slate-400" />
               </div>
-              <h3 className="text-xl font-semibold text-slate-700 mb-2">เนเธกเนเธเธเธเนเธญเธกเธนเธฅเธเธ•เธดเธเธฒ</h3>
-              <p className="text-slate-500">เธฅเธญเธเธเนเธเธซเธฒเธ”เนเธงเธขเธเธณเธญเธทเนเธ เธซเธฃเธทเธญเน€เธเธดเนเธกเธเธ•เธดเธเธฒเนเธซเธกเน</p>
+              <h3 className="text-xl font-semibold text-slate-700 mb-2">ไม่พบข้อมูลกติกา</h3>
+              <p className="text-slate-500">ลองค้นหาด้วยคำอื่น หรือเพิ่มกติกาใหม่</p>
             </div>
           ) : (
             filteredRules.map((rule, index) => (
@@ -202,14 +203,14 @@ export default function RulesPage() {
                     <div className="flex-1">
                       <div className="flex flex-wrap items-center gap-3 mb-1">
                         <h3 className="text-xl font-bold text-slate-800">{rule.title}</h3>
-                        <span className={`px-3 py-1 rounded-full text-xs font-semibold border ${getCategoryColor(rule.category || 'เธ—เธฑเนเธงเนเธ')}`}>
-                          {rule.category || 'เธ—เธฑเนเธงเนเธ'}
+                        <span className={`px-3 py-1 rounded-full text-xs font-semibold border ${getCategoryColor(rule.category || 'ทั่วไป')}`}>
+                          {rule.category || 'ทั่วไป'}
                         </span>
                       </div>
                       <div className="flex flex-wrap items-center gap-4 text-sm text-slate-500 mt-2 md:mt-0">
-                        <span className="flex items-center gap-1.5">๐‘ค {rule.created_by || 'Unknown'}</span>
+                        <span className="flex items-center gap-1.5"><User className="w-4 h-4" /> {rule.created_by || 'Unknown'}</span>
                         <span className="flex items-center gap-1.5">
-                          ๐“… 
+                          <Calendar className="w-4 h-4" /> 
                           {rule.created_at ? new Date(rule.created_at).toLocaleDateString('th-TH') : '-'}
                         </span>
                       </div>
@@ -217,9 +218,9 @@ export default function RulesPage() {
                   </div>
                   <div className="w-10 h-10 rounded-full bg-slate-50 flex items-center justify-center self-end md:self-auto group-hover:bg-purple-50 transition-colors flex-shrink-0">
                     {expandedId === rule.id ? (
-                      <span className="text-purple-600">โ–ฒ</span>
+                      <ChevronUp className="w-5 h-5 text-purple-600" />
                     ) : (
-                      <span className="text-slate-400">โ–ผ</span>
+                      <ChevronDown className="w-5 h-5 text-slate-400" />
                     )}
                   </div>
                 </div>
@@ -246,70 +247,70 @@ export default function RulesPage() {
           <div className="bg-white rounded-[2.5rem] w-full max-w-2xl shadow-2xl relative z-10 overflow-hidden flex flex-col max-h-[90vh]">
             <div className="bg-gradient-to-r from-purple-600 to-indigo-600 p-6 flex justify-between items-center text-white">
               <h2 className="text-2xl font-bold flex items-center gap-2">
-                <span className="text-xl">๐“</span>
-                เน€เธเธดเนเธกเธเธ•เธดเธเธฒเนเธซเธกเน
+                <FileText className="w-6 h-6" />
+                เพิ่มกติกาใหม่
               </h2>
               <button 
                 onClick={() => setIsModalOpen(false)}
                 className="w-10 h-10 rounded-full bg-white/20 hover:bg-white/30 flex items-center justify-center transition-colors"
               >
-                <span className="text-lg font-bold">โ•</span>
+                <X className="w-5 h-5" />
               </button>
             </div>
             
             <div className="p-8 overflow-y-auto">
               <form onSubmit={handleSubmit} className="space-y-5">
                 <div>
-                  <label className="block text-sm font-semibold text-slate-700 mb-2">เธซเธฑเธงเธเนเธญเธเธ•เธดเธเธฒ</label>
+                  <label className="block text-sm font-semibold text-slate-700 mb-2">หัวข้อกติกา</label>
                   <input
                     type="text"
                     required
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
                     className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-purple-500 focus:ring-2 focus:ring-purple-200 transition-all outline-none"
-                    placeholder="เน€เธเนเธ เธฃเธฐเน€เธเธตเธขเธเธเธฒเธฃเน€เธเนเธฒเธเธฒเธ..."
+                    placeholder="เช่น ระเบียบการเข้างาน..."
                   />
                 </div>
                 
                 <div>
-                  <label className="block text-sm font-semibold text-slate-700 mb-2">เธซเธกเธงเธ”เธซเธกเธนเน</label>
+                  <label className="block text-sm font-semibold text-slate-700 mb-2">หมวดหมู่</label>
                   <div className="relative">
-                    <span className="absolute left-4 top-3.5 text-lg">๐ท๏ธ</span>
+                    <Tag className="absolute left-4 top-3.5 w-5 h-5 text-slate-400" />
                     <input
                       type="text"
                       required
                       value={category}
                       onChange={(e) => setCategory(e.target.value)}
                       className="w-full pl-11 pr-4 py-3 rounded-xl border border-slate-200 focus:border-purple-500 focus:ring-2 focus:ring-purple-200 transition-all outline-none"
-                      placeholder="เน€เธเนเธ เธฃเธฐเน€เธเธตเธขเธเธงเธดเธเธฑเธข, เธ—เธฑเนเธงเนเธ..."
+                      placeholder="เช่น ระเบียบวินัย, ทั่วไป..."
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label className="block text-sm font-semibold text-slate-700 mb-2">เธเธทเนเธญเธเธนเนเธชเธฃเนเธฒเธ</label>
+                  <label className="block text-sm font-semibold text-slate-700 mb-2">ชื่อผู้สร้าง</label>
                   <div className="relative">
-                    <span className="absolute left-4 top-3.5 text-lg">๐‘ค</span>
+                    <User className="absolute left-4 top-3.5 w-5 h-5 text-slate-400" />
                     <input
                       type="text"
                       required
                       value={createdBy}
                       onChange={(e) => setCreatedBy(e.target.value)}
                       className="w-full pl-11 pr-4 py-3 rounded-xl border border-slate-200 focus:border-purple-500 focus:ring-2 focus:ring-purple-200 transition-all outline-none"
-                      placeholder="เธเธทเนเธญ-เธเธฒเธกเธชเธเธธเธฅ..."
+                      placeholder="ชื่อ-นามสกุล..."
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label className="block text-sm font-semibold text-slate-700 mb-2">เน€เธเธทเนเธญเธซเธฒเธเธ•เธดเธเธฒ</label>
+                  <label className="block text-sm font-semibold text-slate-700 mb-2">เนื้อหากติกา</label>
                   <textarea
                     required
                     value={content}
                     onChange={(e) => setContent(e.target.value)}
                     rows={5}
                     className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-purple-500 focus:ring-2 focus:ring-purple-200 transition-all outline-none resize-none"
-                    placeholder="เธฃเธฒเธขเธฅเธฐเน€เธญเธตเธขเธ”เธเธ•เธดเธเธฒ..."
+                    placeholder="รายละเอียดกติกา..."
                   ></textarea>
                 </div>
 
@@ -319,7 +320,7 @@ export default function RulesPage() {
                     onClick={() => setIsModalOpen(false)}
                     className="flex-1 py-3.5 rounded-full text-slate-600 font-semibold bg-slate-100 hover:bg-slate-200 transition-colors"
                   >
-                    เธขเธเน€เธฅเธดเธ
+                    ยกเลิก
                   </button>
                   <button
                     type="submit"
@@ -329,7 +330,7 @@ export default function RulesPage() {
                     {isSubmitting ? (
                       <span className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></span>
                     ) : (
-                      "เธเธฑเธเธ—เธถเธเธเนเธญเธกเธนเธฅ"
+                      "บันทึกข้อมูล"
                     )}
                   </button>
                 </div>

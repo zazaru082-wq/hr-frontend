@@ -54,7 +54,7 @@ export default function PerformancesPage() {
     e.preventDefault();
     setIsSubmitting(true);
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000"}/api/performances/`, {
+      const res = await fetch('http://127.0.0.1:8000/api/performances/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -96,13 +96,13 @@ export default function PerformancesPage() {
           <div>
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white shadow-sm border border-slate-100 mb-4">
               <span className="w-2 h-2 rounded-full bg-amber-500 animate-ping"></span>
-              <span className="text-sm font-medium text-slate-600">เธญเธฑเธเน€เธ”เธ•เธฅเนเธฒเธชเธธเธ”</span>
+              <span className="text-sm font-medium text-slate-600">อัปเดตล่าสุด</span>
             </div>
             <h1 className="text-4xl md:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-amber-500 to-orange-600 mb-4 drop-shadow-sm">
-              04 เธเธฅเธเธฒเธ
+              04 ผลงาน
             </h1>
             <p className="text-lg text-slate-500 font-medium max-w-xl leading-relaxed">
-              เธเธฅเธเธฒเธเนเธฅเธฐเธเธดเธเธเธฃเธฃเธกเธเธญเธเธ—เธธเธเนเธเธเธ เธญเธฑเธเน€เธ”เธ•เธเธงเธฒเธกเธชเธณเน€เธฃเนเธเนเธฅเธฐเน€เธฃเธทเนเธญเธเธฃเธฒเธงเธ”เธตเน เธ—เธตเนเน€เธเธดเธ”เธเธถเนเธ
+              ผลงานและกิจกรรมของทุกแผนก อัปเดตความสำเร็จและเรื่องราวดีๆ ที่เกิดขึ้น
             </p>
           </div>
           
@@ -114,7 +114,7 @@ export default function PerformancesPage() {
               <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 4v16m8-8H4" />
               </svg>
-              เน€เธเธดเนเธกเธเธฅเธเธฒเธเนเธซเธกเน
+              เพิ่มผลงานใหม่
             </span>
           </button>
         </div>
@@ -131,7 +131,7 @@ export default function PerformancesPage() {
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-16 w-16 mb-4 text-slate-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
                 </svg>
-                <p className="text-lg">เธขเธฑเธเนเธกเนเธกเธตเธเนเธญเธกเธนเธฅเธเธฅเธเธฒเธ</p>
+                <p className="text-lg">ยังไม่มีข้อมูลผลงาน</p>
               </div>
             ) : (
               performances.map((item) => (
@@ -171,7 +171,7 @@ export default function PerformancesPage() {
                         <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-amber-400 to-orange-500 flex items-center justify-center text-white text-xs font-bold shadow-sm">
                           {item.person_id}
                         </div>
-                        <span className="text-xs text-slate-500 font-medium">เธฃเธซเธฑเธชเธเธเธฑเธเธเธฒเธ</span>
+                        <span className="text-xs text-slate-500 font-medium">รหัสพนักงาน</span>
                       </div>
                     </div>
                   </div>
@@ -189,7 +189,7 @@ export default function PerformancesPage() {
           <div className="relative bg-white rounded-[2.5rem] shadow-2xl w-full max-w-2xl overflow-hidden animate-in fade-in zoom-in duration-300">
             
             <div className="bg-gradient-to-r from-amber-500 to-orange-500 px-8 py-6 text-white flex justify-between items-center">
-              <h2 className="text-2xl font-bold">เน€เธเธดเนเธกเธเธฅเธเธฒเธเนเธซเธกเน</h2>
+              <h2 className="text-2xl font-bold">เพิ่มผลงานใหม่</h2>
               <button 
                 onClick={() => setIsModalOpen(false)}
                 disabled={isSubmitting}
@@ -204,7 +204,7 @@ export default function PerformancesPage() {
             <form onSubmit={handleSubmit} className="p-8">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
                 <div className="space-y-2">
-                  <label className="text-sm font-semibold text-slate-700">เธฃเธซเธฑเธชเธเธเธฑเธเธเธฒเธ</label>
+                  <label className="text-sm font-semibold text-slate-700">รหัสพนักงาน</label>
                   <input
                     type="number"
                     name="person_id"
@@ -212,12 +212,12 @@ export default function PerformancesPage() {
                     onChange={handleInputChange}
                     required
                     className="w-full px-4 py-3 rounded-2xl border border-slate-200 focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-all bg-slate-50 focus:bg-white"
-                    placeholder="เธฃเธฐเธเธธเธฃเธซเธฑเธชเธเธเธฑเธเธเธฒเธ"
+                    placeholder="ระบุรหัสพนักงาน"
                   />
                 </div>
                 
                 <div className="space-y-2">
-                  <label className="text-sm font-semibold text-slate-700">เนเธเธเธ</label>
+                  <label className="text-sm font-semibold text-slate-700">แผนก</label>
                   <select
                     name="department"
                     value={formData.department}
@@ -233,7 +233,7 @@ export default function PerformancesPage() {
                 </div>
 
                 <div className="space-y-2 md:col-span-2">
-                  <label className="text-sm font-semibold text-slate-700">เธซเธฑเธงเธเนเธญเธเธฅเธเธฒเธ</label>
+                  <label className="text-sm font-semibold text-slate-700">หัวข้อผลงาน</label>
                   <input
                     type="text"
                     name="topic"
@@ -241,12 +241,12 @@ export default function PerformancesPage() {
                     onChange={handleInputChange}
                     required
                     className="w-full px-4 py-3 rounded-2xl border border-slate-200 focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-all bg-slate-50 focus:bg-white"
-                    placeholder="เน€เธเนเธ เน€เธเธดเธ”เธ•เธฑเธงเธฃเธฐเธเธ AI เนเธซเธกเน"
+                    placeholder="เช่น เปิดตัวระบบ AI ใหม่"
                   />
                 </div>
 
                 <div className="space-y-2 md:col-span-2">
-                  <label className="text-sm font-semibold text-slate-700">เธฃเธฒเธขเธฅเธฐเน€เธญเธตเธขเธ”เธเธดเธเธเธฃเธฃเธก</label>
+                  <label className="text-sm font-semibold text-slate-700">รายละเอียดกิจกรรม</label>
                   <textarea
                     name="activity"
                     value={formData.activity}
@@ -254,12 +254,12 @@ export default function PerformancesPage() {
                     required
                     rows={3}
                     className="w-full px-4 py-3 rounded-2xl border border-slate-200 focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-all bg-slate-50 focus:bg-white resize-none"
-                    placeholder="เธญเธเธดเธเธฒเธขเธฃเธฒเธขเธฅเธฐเน€เธญเธตเธขเธ”เธเธฅเธเธฒเธเธซเธฃเธทเธญเธเธดเธเธเธฃเธฃเธกเธ—เธตเนเน€เธเธดเธ”เธเธถเนเธ..."
+                    placeholder="อธิบายรายละเอียดผลงานหรือกิจกรรมที่เกิดขึ้น..."
                   ></textarea>
                 </div>
 
                 <div className="space-y-2 md:col-span-2">
-                  <label className="text-sm font-semibold text-slate-700">เธงเธฑเธเธ—เธตเน</label>
+                  <label className="text-sm font-semibold text-slate-700">วันที่</label>
                   <input
                     type="date"
                     name="date"
@@ -278,7 +278,7 @@ export default function PerformancesPage() {
                   disabled={isSubmitting}
                   className="px-6 py-3 text-slate-500 font-medium hover:bg-slate-100 rounded-full transition-colors disabled:opacity-50"
                 >
-                  เธขเธเน€เธฅเธดเธ
+                  ยกเลิก
                 </button>
                 <button
                   type="submit"
@@ -288,10 +288,10 @@ export default function PerformancesPage() {
                   {isSubmitting ? (
                     <>
                       <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                      เธเธณเธฅเธฑเธเธเธฑเธเธ—เธถเธ...
+                      กำลังบันทึก...
                     </>
                   ) : (
-                    'เธเธฑเธเธ—เธถเธเธเธฅเธเธฒเธ'
+                    'บันทึกผลงาน'
                   )}
                 </button>
               </div>
