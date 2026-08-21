@@ -75,7 +75,9 @@ export default function ProjectsPage() {
         ? `${process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000"}/api/projects/${selectedId}`
         : `${process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000"}/api/projects/`;
       
-      const payload = editMode ? formData : { ...formData, project_id: `PJ-${Date.now().toString().slice(-4)}` };
+      const payload: any = editMode ? { ...formData } : { ...formData, project_id: `PJ-${Date.now().toString().slice(-4)}` };
+        if (!payload.start_date) payload.start_date = null;
+        if (!payload.end_date) payload.end_date = null;
       
       const res = await fetch(url, {
         method: editMode ? "PUT" : "POST",
