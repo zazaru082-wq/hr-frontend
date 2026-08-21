@@ -32,6 +32,7 @@ export default function ProjectsPage() {
     end_date: ""
   });
   const [submitLoading, setSubmitLoading] = useState(false);
+    const [submitError, setSubmitError] = useState("");
 
   useEffect(() => {
     fetchProjects();
@@ -71,13 +72,14 @@ export default function ProjectsPage() {
     e.preventDefault();
     try {
       setSubmitLoading(true);
+      setSubmitError("");
       const url = editMode 
         ? `${process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000"}/api/projects/${selectedId}`
         : `${process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000"}/api/projects/`;
       
       const payload: any = editMode ? { ...formData } : { ...formData, project_id: `PJ-${Date.now().toString().slice(-4)}` };
-        if (!payload.start_date) payload.start_date = null;
-        if (!payload.end_date) payload.end_date = null;
+      if (!payload.start_date) payload.start_date = null;
+      if (!payload.end_date) payload.end_date = null;
       
       const res = await fetch(url, {
         method: editMode ? "PUT" : "POST",
@@ -93,9 +95,13 @@ export default function ProjectsPage() {
         setFormData({
           name: "", description: "", owner: "", status: "กำลังดำเนินการ", progress: 0, start_date: "", end_date: ""
         });
+      } else {
+        const errData = await res.text();
+        setSubmitError(`Error: ${res.status} ${errData}`);
       }
-    } catch (err) {
+    } catch (err: any) {
       console.error(err);
+      setSubmitError(err.message || "Unknown error");
     } finally {
       setSubmitLoading(false);
     }
