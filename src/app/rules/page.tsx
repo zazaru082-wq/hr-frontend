@@ -48,7 +48,7 @@ export default function RulesPage() {
   const fetchRules = async () => {
     try {
       setIsLoading(true);
-      const res = await fetch(`http://127.0.0.1:8000/api/rules/`);
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000"}/api/rules/`);
       if (res.ok) {
         const data = await res.json();
         setRules(data);
@@ -86,7 +86,7 @@ export default function RulesPage() {
     setIsSubmitting(true);
     try {
       const newRule = { title, content, category, created_by: createdBy };
-      const res = await fetch(`http://127.0.0.1:8000/api/rules/`), {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000"}/api/rules/`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

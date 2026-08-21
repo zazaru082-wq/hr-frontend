@@ -31,7 +31,7 @@ export default function DocumentsPage() {
 
   const fetchDocuments = async () => {
     try {
-      const response = await fetch(`http://127.0.0.1:8000/api/documents/`);
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000"}/api/documents/`);
       if (response.ok) {
         const data = await response.json();
         setDocuments(data);
@@ -50,7 +50,7 @@ export default function DocumentsPage() {
     e.preventDefault();
     setIsLoading(true);
     try {
-      const response = await fetch(`http://127.0.0.1:8000/api/documents/`), {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000"}/api/documents/`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

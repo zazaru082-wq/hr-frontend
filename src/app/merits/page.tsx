@@ -29,7 +29,7 @@ export default function MeritsPage() {
 
   const fetchMerits = async () => {
     try {
-      const res = await fetch(`http://127.0.0.1:8000/api/merits/`);
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000"}/api/merits/`);
       if (res.ok) {
         const data = await res.json();
         setMerits(data);
@@ -51,7 +51,7 @@ export default function MeritsPage() {
     e.preventDefault();
     setLoading(true);
     try {
-      const res = await fetch(`http://127.0.0.1:8000/api/merits/`), {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000"}/api/merits/`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData)

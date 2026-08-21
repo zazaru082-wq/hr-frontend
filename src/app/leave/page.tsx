@@ -16,8 +16,8 @@ export default function LeavePage() {
   const fetchData = async () => {
     try {
       const [leavesRes, empRes] = await Promise.all([
-        fetch(`http://127.0.0.1:8000/api/leaves/`),
-        fetch(`http://127.0.0.1:8000/api/employees/`)
+        fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000"}/api/leaves/`),
+        fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000"}/api/employees/`)
       ]);
       if (leavesRes.ok) setLeaves(await leavesRes.json());
       if (empRes.ok) setEmployees(await empRes.json());
@@ -30,7 +30,7 @@ export default function LeavePage() {
     e.preventDefault();
     setIsLoading(true);
     try {
-      const res = await fetch(`http://127.0.0.1:8000/api/leaves/`), {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000"}/api/leaves/`, {
         method: "POST", headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData)
       });
@@ -46,7 +46,7 @@ export default function LeavePage() {
 
   const handleUpdateStatus = async (id: number, status: string) => {
     try {
-      const res = await fetch(`http://127.0.0.1:8000/api/leaves/${id}/status?status=${encodeURIComponent(status)}`, { method: "PUT" });
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000"}/api/leaves/${id}/status?status=${encodeURIComponent(status)}`, { method: "PUT" });
       if (res.ok) fetchData();
     } catch (error) { console.error(error); }
   };

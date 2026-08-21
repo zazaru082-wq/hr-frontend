@@ -37,7 +37,7 @@ export default function ProjectsPage() {
   const fetchProjects = async () => {
     try {
       setLoading(true);
-      const res = await fetch(`http://127.0.0.1:8000/api/projects/`);
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000"}/api/projects/`);
       if (!res.ok) throw new Error("เนเธกเนเธชเธฒเธกเธฒเธฃเธ–เธ”เธถเธเธเนเธญเธกเธนเธฅเนเธเธฃเธเธเธฒเธฃเนเธ”เน");
       const data = await res.json();
       setProjects(data);
@@ -60,7 +60,7 @@ export default function ProjectsPage() {
     e.preventDefault();
     try {
       setSubmitLoading(true);
-      const res = await fetch(`http://127.0.0.1:8000/api/projects/`), {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000"}/api/projects/`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData)

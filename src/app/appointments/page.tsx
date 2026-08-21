@@ -37,7 +37,7 @@ export default function AppointmentsPage() {
 
   const fetchSchedules = async () => {
     try {
-      const res = await fetch(`http://127.0.0.1:8000/api/schedules/`);
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000"}/api/schedules/`);
       if (res.ok) {
         const data = await res.json();
         setSchedules(data);
@@ -86,7 +86,7 @@ export default function AppointmentsPage() {
   const handleDelete = async (id: number) => {
     if (!confirm('เธเธธเธ“เนเธเนเนเธเธซเธฃเธทเธญเนเธกเนเธงเนเธฒเธ•เนเธญเธเธเธฒเธฃเธฅเธเธเธดเธงเธเธฒเธเธเธตเน?')) return;
     try {
-      const res = await fetch(`http://127.0.0.1:8000/api/schedules/${id}`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000"}/api/schedules/${id}`, {
         method: 'DELETE',
       });
       if (res.ok) {
@@ -101,8 +101,8 @@ export default function AppointmentsPage() {
     e.preventDefault();
     try {
       const url = editMode && editId 
-        ? `http://127.0.0.1:8000/api/schedules/${editId}` 
-        : "http://127.0.0.1:8000/api/schedules/";
+        ? `${process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000"}/api/schedules/${editId}` 
+        : `${process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000"}/api/schedules/`;
         
       const method = editMode ? 'PUT' : 'POST';
 
