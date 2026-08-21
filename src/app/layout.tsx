@@ -10,7 +10,7 @@ const prompt = Prompt({
 });
 
 export const metadata: Metadata = {
-  title: "เธฃเธฐเธเธเธเธฃเธดเธซเธฒเธฃเธเธฒเธเธเธธเธเธเธฅ | เธเธญเธเธ—เธธเธเธเธคเธกเธดเธ•เธจเธดเธฅเธเน",
+  title: "ระบบบริหารงานบุคคล | กองทุนนฤมิตศิลป์",
   description: "HR System for Niramitsilp Fund",
 };
 
