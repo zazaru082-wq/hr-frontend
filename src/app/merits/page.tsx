@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import React, { useState, useEffect } from 'react';
 import { Calendar, MapPin, User, Image as ImageIcon, Tag, Plus, X, Heart, Star } from 'lucide-react';
@@ -20,7 +20,7 @@ export default function MeritsPage() {
   const [formData, setFormData] = useState<Merit>({
     title: '',
     description: '',
-    category: 'เธเธธเธเธเธฅ',
+    category: 'บุคคล',
     date: '',
     location: '',
     image_url: '',
@@ -30,7 +30,7 @@ export default function MeritsPage() {
 
   
   const handleDelete = async (id: number) => {
-    if (!confirm("เธเธธเธ“เนเธเนเนเธเธซเธฃเธทเธญเนเธกเนเธ—เธตเนเธเธฐเธฅเธเธเนเธญเธกเธนเธฅเธเธตเน?")) return;
+    if (!confirm("คุณแน่ใจหรือไม่ที่จะลบข้อมูลนี้?")) return;
     try {
       const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000"}/api/merits/${id}`, { method: 'DELETE' });
       if (res.ok) fetchMerits();
@@ -68,7 +68,7 @@ export default function MeritsPage() {
       });
       if (res.ok) {
         setIsModalOpen(false);
-        setFormData({ title: '', description: '', category: 'เธเธธเธเธเธฅ', date: '', location: '', image_url: '', organizer: '' });
+        setFormData({ title: '', description: '', category: 'บุคคล', date: '', location: '', image_url: '', organizer: '' });
         fetchMerits();
       }
     } catch (error) {
@@ -93,16 +93,16 @@ export default function MeritsPage() {
           <div>
             <h1 className="text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-amber-600 to-orange-500 mb-2 flex items-center gap-3">
               <Star className="w-8 h-8 text-amber-500" fill="currentColor" />
-              08 เธ—เธเธ—เธงเธเธเธธเธ
+              08 ทบทวนบุญ
             </h1>
-            <p className="text-amber-800 text-lg font-medium">เธเธฑเธเธ—เธถเธเธเธฒเธเธเธธเธเนเธฅเธฐเธเธดเธเธเธฃเธฃเธกเธ—เธณเธเธงเธฒเธกเธ”เธต</p>
+            <p className="text-amber-800 text-lg font-medium">บันทึกงานบุญและกิจกรรมทำความดี</p>
           </div>
           <button 
             onClick={() => setIsModalOpen(true)}
             className="mt-4 md:mt-0 px-8 py-4 bg-gradient-to-r from-amber-400 to-orange-500 text-white rounded-full font-bold shadow-lg shadow-orange-200 hover:shadow-orange-300 hover:scale-105 transition-all duration-300 flex items-center gap-2"
           >
             <Plus size={24} />
-            เน€เธเธดเนเธกเธฃเธฒเธขเธเธฒเธฃเธเธธเธ
+            เพิ่มรายการบุญ
           </button>
         </div>
 
@@ -119,7 +119,7 @@ export default function MeritsPage() {
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent"></div>
                 <div className="absolute top-4 right-4">
                   <span className={`px-4 py-1.5 rounded-full text-sm font-semibold shadow-md backdrop-blur-md ${
-                    merit.category === 'เธชเนเธงเธเธเธฅเธฒเธ' 
+                    merit.category === 'ส่วนกลาง' 
                       ? 'bg-amber-400/90 text-amber-900 border border-amber-300' 
                       : 'bg-emerald-400/90 text-emerald-900 border border-emerald-300'
                   }`}>
@@ -143,7 +143,7 @@ export default function MeritsPage() {
                   </div>
                   <div className="flex items-center gap-2">
                     <User size={16} className="text-orange-500" />
-                    <span className="truncate">เธเธฑเธ”เนเธ”เธข: {merit.organizer || '-'}</span>
+                    <span className="truncate">จัดโดย: {merit.organizer || '-'}</span>
                   </div>
                 </div>
               </div>
@@ -152,8 +152,8 @@ export default function MeritsPage() {
           {merits.length === 0 && (
             <div className="col-span-full py-20 text-center bg-white/50 rounded-[2.5rem] border border-dashed border-amber-300 shadow-sm backdrop-blur-sm">
               <Heart className="w-16 h-16 text-amber-300 mx-auto mb-4" />
-              <h3 className="text-2xl font-bold text-amber-800 mb-2">เธขเธฑเธเนเธกเนเธกเธตเธฃเธฒเธขเธเธฒเธฃเธ—เธเธ—เธงเธเธเธธเธ</h3>
-              <p className="text-amber-600">เธเธ”เธเธธเนเธก "เน€เธเธดเนเธกเธฃเธฒเธขเธเธฒเธฃเธเธธเธ" เน€เธเธทเนเธญเน€เธฃเธดเนเธกเธ•เนเธเธเธฑเธเธ—เธถเธเธเธงเธฒเธกเธ”เธตเธเธญเธเธเธธเธ“</p>
+              <h3 className="text-2xl font-bold text-amber-800 mb-2">ยังไม่มีรายการทบทวนบุญ</h3>
+              <p className="text-amber-600">กดปุ่ม "เพิ่มรายการบุญ" เพื่อเริ่มต้นบันทึกความดีของคุณ</p>
             </div>
           )}
         </div>
@@ -166,7 +166,7 @@ export default function MeritsPage() {
             <div className="bg-gradient-to-r from-amber-400 to-orange-500 p-6 flex justify-between items-center text-white">
               <h2 className="text-2xl font-bold flex items-center gap-2">
                 <Star className="w-6 h-6" fill="currentColor" />
-                เธเธฑเธเธ—เธถเธเธเธฒเธเธเธธเธ
+                บันทึกงานบุญ
               </h2>
               <button 
                 onClick={() => setIsModalOpen(false)}
@@ -179,7 +179,7 @@ export default function MeritsPage() {
             <form onSubmit={handleSubmit} className="p-8">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="col-span-full">
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">เธซเธฑเธงเธเนเธญ/เธเธทเนเธญเธเธฒเธเธเธธเธ</label>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">หัวข้อ/ชื่องานบุญ</label>
                   <input
                     type="text"
                     name="title"
@@ -187,37 +187,37 @@ export default function MeritsPage() {
                     value={formData.title}
                     onChange={handleChange}
                     className="w-full px-4 py-3 rounded-2xl border-2 border-amber-100 focus:border-amber-400 focus:ring-0 outline-none transition-colors"
-                    placeholder="เน€เธเนเธ เธ—เธณเธเธธเธเธ•เธฑเธเธเธฒเธ•เธฃ, เธเธฃเธดเธเธฒเธเนเธฅเธซเธดเธ•..."
+                    placeholder="เช่น ทำบุญตักบาตร, บริจาคโลหิต..."
                   />
                 </div>
                 
                 <div className="col-span-full">
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">เธฃเธฒเธขเธฅเธฐเน€เธญเธตเธขเธ”เธเธงเธฒเธกเธเธฃเธฐเธ—เธฑเธเนเธ</label>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">รายละเอียดความประทับใจ</label>
                   <textarea
                     name="description"
                     rows={3}
                     value={formData.description}
                     onChange={handleChange}
                     className="w-full px-4 py-3 rounded-2xl border-2 border-amber-100 focus:border-amber-400 focus:ring-0 outline-none transition-colors resize-none"
-                    placeholder="เธเธฑเธเธ—เธถเธเธเธงเธฒเธกเธฃเธนเนเธชเธถเธเนเธฅเธฐเธฃเธฒเธขเธฅเธฐเน€เธญเธตเธขเธ”เธเธฒเธเธเธธเธ..."
+                    placeholder="บันทึกความรู้สึกและรายละเอียดงานบุญ..."
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">เธซเธกเธงเธ”เธซเธกเธนเน</label>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">หมวดหมู่</label>
                   <select
                     name="category"
                     value={formData.category}
                     onChange={handleChange}
                     className="w-full px-4 py-3 rounded-2xl border-2 border-amber-100 focus:border-amber-400 focus:ring-0 outline-none transition-colors bg-white"
                   >
-                    <option value="เธเธธเธเธเธฅ">เธเธธเธเธเธฅ</option>
-                    <option value="เธชเนเธงเธเธเธฅเธฒเธ">เธชเนเธงเธเธเธฅเธฒเธ</option>
+                    <option value="บุคคล">บุคคล</option>
+                    <option value="ส่วนกลาง">ส่วนกลาง</option>
                   </select>
                 </div>
 
                 <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">เธงเธฑเธเธ—เธตเน</label>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">วันที่</label>
                   <input
                     type="date"
                     name="date"
@@ -229,31 +229,31 @@ export default function MeritsPage() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">เธชเธ–เธฒเธเธ—เธตเน</label>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">สถานที่</label>
                   <input
                     type="text"
                     name="location"
                     value={formData.location}
                     onChange={handleChange}
                     className="w-full px-4 py-3 rounded-2xl border-2 border-amber-100 focus:border-amber-400 focus:ring-0 outline-none transition-colors"
-                    placeholder="เน€เธเนเธ เธงเธฑเธ”เธเนเธฒ, เนเธฃเธเธเธขเธฒเธเธฒเธฅ..."
+                    placeholder="เช่น วัดป่า, โรงพยาบาล..."
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">เธเธนเนเธเธฑเธ”เธเธฒเธ/เธเธนเนเธเธณเธเธธเธ</label>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">ผู้จัดงาน/ผู้นำบุญ</label>
                   <input
                     type="text"
                     name="organizer"
                     value={formData.organizer}
                     onChange={handleChange}
                     className="w-full px-4 py-3 rounded-2xl border-2 border-amber-100 focus:border-amber-400 focus:ring-0 outline-none transition-colors"
-                    placeholder="เธเธทเนเธญเธเธนเนเธเธฑเธ” เธซเธฃเธทเธญเธซเธเนเธงเธขเธเธฒเธ..."
+                    placeholder="ชื่อผู้จัด หรือหน่วยงาน..."
                   />
                 </div>
 
                 <div className="col-span-full">
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">เธฅเธดเธเธเนเธฃเธนเธเธ เธฒเธ (เธ–เนเธฒเธกเธต)</label>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">ลิงก์รูปภาพ (ถ้ามี)</label>
                   <div className="relative">
                     <ImageIcon className="absolute left-4 top-3.5 text-gray-400 w-5 h-5" />
                     <input
@@ -274,14 +274,14 @@ export default function MeritsPage() {
                   onClick={() => setIsModalOpen(false)}
                   className="flex-1 px-6 py-3 rounded-full text-gray-600 font-semibold border-2 border-gray-200 hover:bg-gray-50 transition-colors"
                 >
-                  เธขเธเน€เธฅเธดเธ
+                  ยกเลิก
                 </button>
                 <button
                   type="submit"
                   disabled={loading}
                   className="flex-1 px-6 py-3 rounded-full bg-gradient-to-r from-amber-400 to-orange-500 text-white font-bold shadow-lg shadow-orange-200 hover:shadow-orange-300 hover:scale-105 transition-all duration-300 disabled:opacity-50 disabled:hover:scale-100"
                 >
-                  {loading ? 'เธเธณเธฅเธฑเธเธเธฑเธเธ—เธถเธ...' : 'เธเธฑเธเธ—เธถเธเธเธธเธ'}
+                  {loading ? 'กำลังบันทึก...' : 'บันทึกบุญ'}
                 </button>
               </div>
             </form>
