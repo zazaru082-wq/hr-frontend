@@ -38,7 +38,7 @@ export default function ProjectsPage() {
     fetchProjects();
   }, []);
 
-  const fetchProjects = async () => {
+  async function fetchProjects() {
     try {
       setLoading(true);
       const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000"}/api/projects/`);

@@ -42,7 +42,7 @@ export default function PerformancesPage() {
     } catch (error) { console.error(error); }
   };
 
-  const fetchPerformances = async () => {
+  async function fetchPerformances() {
     try {
       const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000"}/api/performances/`);
       if (res.ok) {

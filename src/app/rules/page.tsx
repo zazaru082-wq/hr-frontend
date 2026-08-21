@@ -57,7 +57,7 @@ export default function RulesPage() {
     } catch (error) { console.error(error); }
   };
 
-  const fetchRules = async () => {
+  async function fetchRules() {
     try {
       setIsLoading(true);
       const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000"}/api/rules/`);

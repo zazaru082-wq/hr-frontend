@@ -51,7 +51,7 @@ export default function DocumentsPage() {
     } catch (error) { console.error(error); }
   };
 
-  const fetchDocuments = async () => {
+  async function fetchDocuments() {
     try {
       const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000"}/api/documents/`);
       if (response.ok) {

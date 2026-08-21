@@ -35,9 +35,9 @@ export default function AppointmentsPage() {
   const [currentMonth, setCurrentMonth] = useState(new Date(new Date().getFullYear(), new Date().getMonth(), 1));
   const [selectedDate, setSelectedDate] = useState(new Date());
 
-  const fetchSchedules = async () => {
+  async function fetchSchedules() {
     try {
-      const res = await fetch('http://127.0.0.1:8000/api/schedules/');
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000"}/api/schedules/`);
       if (res.ok) {
         const data = await res.json();
         setSchedules(data);

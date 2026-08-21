@@ -13,7 +13,7 @@ export default function LeavePage() {
   const [filterMode, setFilterMode] = useState('ทั้งหมด');
   const [searchQuery, setSearchQuery] = useState('');
 
-  const fetchData = async () => {
+  async function fetchData() {
     try {
       const [leavesRes, empRes] = await Promise.all([
         fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000"}/api/leaves/`),

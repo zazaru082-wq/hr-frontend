@@ -37,7 +37,7 @@ export default function MeritsPage() {
     } catch (error) { console.error(error); }
   };
 
-  const fetchMerits = async () => {
+  async function fetchMerits() {
     try {
       const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000"}/api/merits/`);
       if (res.ok) {
