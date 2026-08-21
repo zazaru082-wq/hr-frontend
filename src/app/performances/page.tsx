@@ -26,10 +26,21 @@ export default function PerformancesPage() {
     date: ''
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [editMode, setEditMode] = useState(false);
+  const [selectedId, setSelectedId] = useState<number | null>(null);
 
   useEffect(() => {
     fetchPerformances();
   }, []);
+
+  
+  const handleDelete = async (id: number) => {
+    if (!confirm("คุณแน่ใจหรือไม่ที่จะลบข้อมูลนี้?")) return;
+    try {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000"}/api/performances/${id}`, { method: 'DELETE' });
+      if (res.ok) fetchPerformances();
+    } catch (error) { console.error(error); }
+  };
 
   const fetchPerformances = async () => {
     try {
@@ -52,35 +63,30 @@ export default function PerformancesPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsSubmitting(true);
     try {
-      const res = await fetch('http://127.0.0.1:8000/api/performances/', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          ...formData,
-          person_id: Number(formData.person_id)
-        })
+      setIsSubmitting(true);
+      const url = editMode 
+        ? `${process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000"}/api/performances/${selectedId}`
+        : `${process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000"}/api/performances/`;
+      
+      const res = await fetch(url, {
+        method: editMode ? "PUT" : "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData)
       });
-
       if (res.ok) {
         setIsModalOpen(false);
-        setFormData({
-          person_id: '',
-          department: 'MV AI',
-          topic: '',
-          activity: '',
-          date: ''
-        });
+        setEditMode(false);
+        setSelectedId(null);
         fetchPerformances();
+        setFormData({ person_id: '', department: 'MV AI', topic: '', activity: '', date: '' });
       }
-    } catch (error) {
-      console.error('Error saving performance:', error);
+    } catch (err) {
+      console.error(err);
     } finally {
       setIsSubmitting(false);
     }
+  }
   };
 
   return (

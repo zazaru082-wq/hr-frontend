@@ -26,6 +26,8 @@ export default function RulesPage() {
   const [category, setCategory] = useState("");
   const [createdBy, setCreatedBy] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [editMode, setEditMode] = useState(false);
+  const [selectedId, setSelectedId] = useState<number | null>(null);
 
   useEffect(() => {
     fetchRules();
@@ -45,6 +47,15 @@ export default function RulesPage() {
       );
     }
   }, [searchQuery, rules]);
+
+  
+  const handleDelete = async (id: number) => {
+    if (!confirm("คุณแน่ใจหรือไม่ที่จะลบข้อมูลนี้?")) return;
+    try {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000"}/api/rules/${id}`, { method: 'DELETE' });
+      if (res.ok) fetchRules();
+    } catch (error) { console.error(error); }
+  };
 
   const fetchRules = async () => {
     try {
@@ -84,30 +95,27 @@ export default function RulesPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsSubmitting(true);
     try {
-      const newRule = { title, content, category, created_by: createdBy };
-      const res = await fetch("http://127.0.0.1:8000/api/rules/", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(newRule),
-      });
+      setIsSubmitting(true);
+      const url = editMode 
+        ? `${process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000"}/api/rules/${selectedId}`
+        : `${process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000"}/api/rules/`;
       
+      const res = await fetch(url, {
+        method: editMode ? "PUT" : "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData)
+      });
       if (res.ok) {
-        fetchRules();
         setIsModalOpen(false);
-        setTitle("");
-        setContent("");
-        setCategory("");
-        setCreatedBy("");
+        setEditMode(false);
+        setSelectedId(null);
+        fetchRules();
+        setFormData({ category: 'ระเบียบการลา', title: '', content: '' });
       }
-    } catch (error) {
-      console.error("Error adding rule:", error);
-    } finally {
-      setIsSubmitting(false);
-    }
+    } catch (err) { console.error(err); } 
+    finally { setIsSubmitting(false); }
+  }
   };
 
   const toggleExpand = (id: number) => {

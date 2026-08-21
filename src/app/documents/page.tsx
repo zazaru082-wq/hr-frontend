@@ -42,6 +42,15 @@ export default function DocumentsPage() {
     fetchDocuments();
   }, []);
 
+  
+  const handleDelete = async (id: number) => {
+    if (!confirm("คุณแน่ใจหรือไม่ที่จะลบเอกสารนี้?")) return;
+    try {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000"}/api/documents/${id}`, { method: 'DELETE' });
+      if (res.ok) fetchDocuments();
+    } catch (error) { console.error(error); }
+  };
+
   const fetchDocuments = async () => {
     try {
       const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000"}/api/documents/`);
@@ -63,7 +72,7 @@ export default function DocumentsPage() {
     e.preventDefault();
     setIsLoading(true);
     try {
-      const response = await fetch("http://127.0.0.1:8000/api/documents/", {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000"}/api/documents/`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
