@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 
 // Project interface
 interface Project {
+  project_id: string;
   id: number;
   name: string;
   description: string;

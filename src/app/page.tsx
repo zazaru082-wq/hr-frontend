@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import Link from 'next/link';
 
 export default function Home() {
-  const [stats, setStats] = useState({
+  const [stats, setStats] = useState<any>({
     totalEmployees: 0,
     leaveToday: { total: 0, sick: 0, personal: 0, dharma: 0 },
     dharmaStats: { once: 0, twice: 0, none: 0 },
@@ -37,11 +37,11 @@ export default function Home() {
         // 1. Employees & Birthdays
         const totalEmployees = employees.length;
         const currentMonth = new Date().getMonth() + 1; // 1-12
-        const birthdays = employees.filter(emp => {
+        const birthdays = employees.filter((emp: any) => {
           if (!emp.dob) return false;
           const dobDate = new Date(emp.dob);
           return (dobDate.getMonth() + 1) === currentMonth;
-        }).map(emp => ({
+        }).map((emp: any) => ({
           name: `${emp.first_name} ${emp.last_name}`,
           department: emp.department || 'ไม่ระบุ',
           date: new Date(emp.dob).toLocaleDateString('th-TH', { day: 'numeric', month: 'short' })
@@ -49,7 +49,7 @@ export default function Home() {
 
         // 2. Leave Today
         const todayStr = new Date().toISOString().split('T')[0];
-        const leavesToday = leaves.filter(l => 
+        const leavesToday = leaves.filter((l: any) => 
           l.status === 'อนุมัติแล้ว' && 
           l.start_date <= todayStr && 
           l.end_date >= todayStr
@@ -57,44 +57,44 @@ export default function Home() {
         
         const leaveTodayStats = {
           total: leavesToday.length,
-          sick: leavesToday.filter(l => l.leave_type === 'ลาป่วย').length,
-          personal: leavesToday.filter(l => l.leave_type === 'ลากิจ').length,
-          dharma: leavesToday.filter(l => l.leave_type === 'ลาปฏิบัติธรรม').length,
+          sick: leavesToday.filter((l: any) => l.leave_type === 'ลาป่วย').length,
+          personal: leavesToday.filter((l: any) => l.leave_type === 'ลากิจ').length,
+          dharma: leavesToday.filter((l: any) => l.leave_type === 'ลาปฏิบัติธรรม').length,
         };
 
         // 3. Dharma Stats (Count dharma leaves per person in the current year)
         const currentYear = new Date().getFullYear();
-        const dharmaCounts = {};
-        employees.forEach(e => dharmaCounts[e.person_id] = 0);
+        const dharmaCounts: any = {};
+        employees.forEach((e: any) => dharmaCounts[e.person_id] = 0);
         
-        leaves.filter(l => l.leave_type === 'ลาปฏิบัติธรรม' && l.status === 'อนุมัติแล้ว' && l.start_date.startsWith(currentYear.toString())).forEach(l => {
+        leaves.filter((l: any) => l.leave_type === 'ลาปฏิบัติธรรม' && l.status === 'อนุมัติแล้ว' && l.start_date.startsWith(currentYear.toString())).forEach((l: any) => {
             if (dharmaCounts[l.person_id] !== undefined) {
                 dharmaCounts[l.person_id] += 1;
             }
         });
         
         let once = 0, twice = 0, none = 0;
-        Object.values(dharmaCounts).forEach(count => {
+        Object.values(dharmaCounts).forEach((count: any) => {
             if (count === 0) none++;
             else if (count === 1) once++;
             else twice++;
         });
 
         // 4. Schedules Today
-        const schedulesToday = schedules.filter(s => s.date === todayStr).sort((a,b) => a.time_str.localeCompare(b.time_str));
+        const schedulesToday = schedules.filter((s: any) => s.date === todayStr).sort((a: any, b: any) => a.time_str.localeCompare(b.time_str));
 
         // 5. Projects
         const projStats = {
-          active: projects.filter(p => p.status === 'กำลังทำ').length,
-          completed: projects.filter(p => p.status === 'เสร็จแล้ว').length,
-          paused: projects.filter(p => p.status === 'พัก/เลื่อน').length,
+          active: projects.filter((p: any) => p.status === 'กำลังทำ').length,
+          completed: projects.filter((p: any) => p.status === 'เสร็จแล้ว').length,
+          paused: projects.filter((p: any) => p.status === 'พัก/เลื่อน').length,
         };
 
         // 6. Recent Activity (Latest 3 performances)
         const recentActivity = performances
-            .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+            .sort((a: any, b: any) => new Date(b.date).getTime() - new Date(a.date).getTime())
             .slice(0, 3)
-            .map(p => ({
+            .map((p: any) => ({
                 id: p.id,
                 title: `ผลงาน: ${p.topic}`,
                 desc: p.activity,
@@ -227,7 +227,7 @@ export default function Home() {
                     ไม่มีคิวนัดหมายสำหรับวันนี้
                 </div>
             ) : (
-                stats.schedules.map((s, idx) => {
+                stats.schedules.map((s: any, idx: number) => {
                     const dateObj = new Date(s.date);
                     const day = dateObj.toLocaleDateString('th-TH', { day: 'numeric' });
                     const month = dateObj.toLocaleDateString('th-TH', { month: 'short' });
@@ -269,7 +269,7 @@ export default function Home() {
             {stats.recentActivity.length === 0 ? (
                 <div className="text-center text-slate-400 text-sm">ไม่มีความเคลื่อนไหว</div>
             ) : (
-                stats.recentActivity.map((act, idx) => (
+                stats.recentActivity.map((act: any, idx: number) => (
                     <div key={idx} className="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active">
                         <div className="flex items-center justify-center w-6 h-6 rounded-full border-2 border-white bg-amber-400 shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2"></div>
                         <div className="w-[calc(100%-2rem)] md:w-[calc(50%-1.5rem)] p-4 rounded-xl shadow-[0_2px_10px_-3px_rgba(6,81,237,0.1)] bg-white border border-slate-100">
@@ -342,7 +342,7 @@ export default function Home() {
             {stats.birthdays.length === 0 ? (
                 <div className="text-center py-6 text-slate-400 font-medium">ไม่มีบุคลากรที่เกิดในเดือนนี้</div>
             ) : (
-                stats.birthdays.map((b, idx) => (
+                stats.birthdays.map((b: any, idx: number) => (
                     <div key={idx} className="flex items-center gap-4 p-4 rounded-2xl bg-gradient-to-r from-rose-50 to-white border border-rose-100/50">
                         <div className="w-12 h-12 bg-rose-500 text-white font-black flex items-center justify-center rounded-full shadow-lg shadow-rose-200">
                             {b.name.charAt(0)}
