@@ -19,6 +19,8 @@ export default function ProjectsPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [editMode, setEditMode] = useState(false);
+  const [selectedId, setSelectedId] = useState<string | null>(null);
   const [formData, setFormData] = useState({
     name: "",
     description: "",
@@ -56,29 +58,41 @@ export default function ProjectsPage() {
     }));
   };
 
+  const handleDelete = async (id: string) => {
+    if (!confirm('ยืนยันการลบโครงการนี้?')) return;
+    try {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000"}/api/projects/${id}`, { method: 'DELETE' });
+      if (res.ok) fetchProjects();
+    } catch (error) { console.error(error); }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
       setSubmitLoading(true);
-      const res = await fetch("http://127.0.0.1:8000/api/projects/", {
-        method: "POST",
+      const url = editMode 
+        ? `${process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000"}/api/projects/${selectedId}`
+        : `${process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000"}/api/projects/`;
+      
+      const payload = editMode ? formData : { ...formData, project_id: `PJ-${Date.now().toString().slice(-4)}` };
+      
+      const res = await fetch(url, {
+        method: editMode ? "PUT" : "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData)
+        body: JSON.stringify(payload)
       });
-      if (!res.ok) throw new Error("ไม่สามารถบันทึกข้อมูลได้");
-      await fetchProjects();
-      setIsModalOpen(false);
-      setFormData({
-        name: "",
-        description: "",
-        owner: "",
-        status: "กำลังดำเนินการ",
-        progress: 0,
-        start_date: "",
-        end_date: ""
-      });
-    } catch (err: any) {
-      alert(err.message);
+      
+      if (res.ok) {
+        setIsModalOpen(false);
+        setEditMode(false);
+        setSelectedId(null);
+        await fetchProjects();
+        setFormData({
+          name: "", description: "", owner: "", status: "กำลังดำเนินการ", progress: 0, start_date: "", end_date: ""
+        });
+      }
+    } catch (err) {
+      console.error(err);
     } finally {
       setSubmitLoading(false);
     }
@@ -172,6 +186,16 @@ export default function ProjectsPage() {
                       </span>
                     </div>
                   </div>
+
+                  {/* ACTION BUTTONS */}
+                  <div className="flex gap-2 pt-4 border-t border-slate-100">
+                    <button onClick={() => { setEditMode(true); setSelectedId(project.project_id); setFormData(project as any); setIsModalOpen(true); }} className="flex-1 py-2 rounded-xl bg-amber-50 text-amber-600 font-bold text-xs hover:bg-amber-100 transition-colors">
+                      แก้ไข
+                    </button>
+                    <button onClick={() => handleDelete(project.project_id)} className="flex-1 py-2 rounded-xl bg-rose-50 text-rose-600 font-bold text-xs hover:bg-rose-100 transition-colors">
+                      ลบ
+                    </button>
+                  </div>
                 </div>
               </div>
             ))}
@@ -189,10 +213,13 @@ export default function ProjectsPage() {
       {isModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
           <div className="absolute inset-0 bg-slate-900/40 backdrop-blur-sm" onClick={() => setIsModalOpen(false)}></div>
-          <div className="bg-white w-full max-w-2xl rounded-[2.5rem] shadow-2xl relative z-10 overflow-hidden flex flex-col max-h-[90vh]">
-            <div className="bg-gradient-to-r from-blue-600 to-teal-500 p-8 text-white">
-              <h2 className="text-2xl font-bold">เพิ่มโครงการใหม่</h2>
-              <p className="text-blue-100 mt-1">กรอกข้อมูลรายละเอียดโครงการด้านล่าง</p>
+          <div className="bg-white w-full max-w-2xl rounded-[2.5rem] shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
+            <div className="bg-gradient-to-r from-blue-700 to-teal-500 p-8 text-white flex justify-between items-center shrink-0">
+              <div>
+                <h2 className="text-2xl font-bold">{editMode ? 'แก้ไขโครงการ' : 'เพิ่มโครงการใหม่'}</h2>
+                <p className="text-blue-100 mt-1">กรอกข้อมูลรายละเอียดโครงการด้านล่าง</p>
+              </div>
+              <button onClick={() => setIsModalOpen(false)} className="text-white/80 hover:text-white transition-colors text-2xl">&times;</button>
             </div>
             
             <div className="p-8 overflow-y-auto">
